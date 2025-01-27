@@ -59,6 +59,7 @@ Esta aplicación está desplegada en un servidor público para pruebas y demostr
   - [ip-api.com](https://ip-api.com) para obtener la información geográfica a partir de la IP.  
   - [Flagpedia](https://flagpedia.net) para mostrar banderas de países.    
   - [HTML2PDF Rocket](https://www.html2pdfrocket.com) para la generación dinámica de PDFs.
+  - [OpenLayers](https://openlayers.org) para generar el mapa interactivo.
 
 ---
 
