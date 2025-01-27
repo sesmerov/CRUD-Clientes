@@ -1,19 +1,70 @@
-- ✔️ Mostrar e implementar en detalles y en modificar la opción de siguiente y anterior
+# CRUD de Clientes WebApp
 
-- ✔️ Mejorar las operaciones de Nuevo y Modificar para que chequee que los datos son correctos:  correo electrónico (no repetido), IP correcta y  teléfono con formato 999-999-9999.
+## Descripción
 
-- ✔️ Mostrar una imagen asociada al cliente almacenada previamente en uploads o una imagen por defecto aleatoria generada por https://robohash.org.  sin no existe. En nombre de las fotos tiene el formato 00000XXX.jpg para el cliente con id XXX.
+Esta aplicación web permite gestionar una lista de clientes mediante operaciones CRUD (Crear, Leer, Actualizar y Eliminar). Incluye una interfaz interactiva y funcional que utiliza Bootstrap para el diseño responsivo, validaciones avanzadas para entradas de datos, integración de APIs externas y generación dinámica de PDFs con detalles del cliente. Los datos se obtienen de una base de datos generada con Mockaroo.
 
-- ✔️ Permitir subir o cambiar la foto del cliente en modificar y en nuevo (La imagen no es obligatoria). Hay que controlar que el fichero subido sea una imagen jpg  o png de un tamaño inferior a 500 Kbps. 
+La aplicación está diseñada para ser intuitiva y funcional, con un enfoque en la experiencia del usuario y el uso de tecnologías modernas.
 
-- ✔️ Mostrar en detalles una bandera del país asociado a la IP ( utilizar https://ip-api.com/  y  https://flagpedia.net/ )
+---
 
-- ✔️ Mostrar la lista de clientes con distintos modos de ordenación: nombre, apellido, correo electrónico, género o IP y poder navegar por ella. 
+## Funcionalidades
 
-- ✔️ Generar un PDF con los todos detalles de un cliente ( Incluir un botón que indique imprimir)
+✔️ **Mostrar detalles con navegación:**  
+En las pantallas de detalles y modificar, se incluyen botones para navegar entre el cliente siguiente y el anterior sin necesidad de volver a la lista principal.
 
-- Crear una nueva tabla en la BD de usuarios de la aplicación (User)  con tres campos: login, password( encriptada )  y rol (0/1), definir varios usuarios y controlar el acceso a la aplicación sólo si se introduce el login y el password correctos. Si se realizan más de tres intentos erróneos se solicitará que se reinicie el navegador.
+✔️ **Validación avanzada en Nuevo y Modificar:**  
+- Verificación de que el correo electrónico sea válido y no esté repetido.  
+- Validación de direcciones IP correctas.  
+- Comprobación del formato correcto del teléfono (999-999-9999).
 
-- Controlar el acceso a la aplicación en función del rol, si es 0 solo puede acceder a visualizar los datos: lista y detalles. Si el rol es 1 podrá además modificar, borrar y eliminar usuarios.
+✔️ **Gestión de imágenes:**  
+- Mostrar una imagen asociada al cliente almacenada en la carpeta `uploads`.  
+- Si no existe la imagen, se carga una por defecto.  
+- Permite subir o cambiar la imagen del cliente desde las pantallas de Nuevo y Modificar.  
+- Se controla que las imágenes subidas sean de formato JPG o PNG y de un tamaño inferior a 500 KB.
 
-- ✔️ Utilizar geoip y el api para javascript https://openlayers.org o similar para mostrar la localización geográfica del cliente  en un mapa en función de su IP.
+✔️ **Geolocalización y banderas:**  
+- En la pantalla de detalles, se muestra una bandera del país asociado a la IP del cliente utilizando [ip-api.com](https://ip-api.com) y [Flagpedia](https://flagpedia.net).  
+- La ubicación del cliente también se representa en un mapa interactivo utilizando la API de [OpenLayers](https://openlayers.org).
+
+✔️ **Ordenación de clientes:**  
+- La lista de clientes puede ordenarse por nombre, apellido, correo electrónico, género o dirección IP.  
+- Permite navegar por la lista con paginación y botones de navegación (Primero, Anterior, Siguiente, Último).
+
+✔️ **Generación de PDF:**  
+- Genera un archivo PDF con todos los detalles de un cliente mediante [HTML2PDF Rocket](https://www.html2pdfrocket.com).  
+- Incluye un botón "Imprimir" para descargar o visualizar el PDF directamente desde la interfaz.
+
+---
+
+## Live Demo
+
+Puedes ver una demostración en vivo de esta aplicación en el siguiente enlace:  
+[**Live Demo - CRUD de Clientes WebApp**](http://www.mycrud-php.free.nf)
+
+Esta aplicación está desplegada en un servidor público para pruebas y demostraciones.
+
+---
+
+## Tecnologías utilizadas
+
+- **HTML5:** Estructura principal de la aplicación.
+- **CSS3:** Estilización personalizada con Bootstrap.
+- **JavaScript:** Lógica interactiva y funcionalidad avanzada.
+- **PHP (con PDO):** Manejo de las operaciones CRUD y conexión con la base de datos.
+- **Bootstrap 5:** Diseño responsivo y componentes prediseñados.
+- **MySQL:** Almacenamiento de datos de los clientes.
+- **APIs externas:**  
+  - [ip-api.com](https://ip-api.com) para obtener la información geográfica a partir de la IP.  
+  - [Flagpedia](https://flagpedia.net) para mostrar banderas de países.    
+  - [This Person Does Not Exist](https://thispersondoesnotexist.com) para generar imágenes realistas en caso de que no haya una asociada.  
+  - [HTML2PDF Rocket](https://www.html2pdfrocket.com) para la generación dinámica de PDFs.
+
+---
+
+## Créditos
+
+Desarrollado por **Diego Sesmero Fernández**.  
+Los datos de la base de datos han sido generados utilizando [Mockaroo](https://mockaroo.com).  
+
