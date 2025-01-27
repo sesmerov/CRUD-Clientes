@@ -41,7 +41,7 @@ En las pantallas de detalles y modificar, se incluyen botones para navegar entre
 ## Live Demo
 
 Puedes ver una demostración en vivo de esta aplicación en el siguiente enlace:  
-[**Live Demo - CRUD de Clientes WebApp**](http://www.mycrud-php.free.nf)
+[**Live Demo - CRUD de Clientes**](http://www.mycrud-php.free.nf)
 
 Esta aplicación está desplegada en un servidor público para pruebas y demostraciones.
 
