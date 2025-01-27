@@ -58,7 +58,6 @@ Esta aplicación está desplegada en un servidor público para pruebas y demostr
 - **APIs externas:**  
   - [ip-api.com](https://ip-api.com) para obtener la información geográfica a partir de la IP.  
   - [Flagpedia](https://flagpedia.net) para mostrar banderas de países.    
-  - [This Person Does Not Exist](https://thispersondoesnotexist.com) para generar imágenes realistas en caso de que no haya una asociada.  
   - [HTML2PDF Rocket](https://www.html2pdfrocket.com) para la generación dinámica de PDFs.
 
 ---
@@ -67,4 +66,5 @@ Esta aplicación está desplegada en un servidor público para pruebas y demostr
 
 Desarrollado por **Diego Sesmero Fernández**.  
 Los datos de la base de datos han sido generados utilizando [Mockaroo](https://mockaroo.com).  
+[This Person Does Not Exist](https://thispersondoesnotexist.com) para asociar imágenes realistas a cada cliente. 
 
