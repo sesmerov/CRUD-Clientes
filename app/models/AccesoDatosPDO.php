@@ -209,7 +209,7 @@ public function getClientes($primero, $cuantos, $orden = 'id'): array {
      // Evito que se pueda clonar el objeto. (SINGLETON)
     public function __clone()
     { 
-        trigger_error('La clonación no permitida', E_USER_ERROR); 
+        throw new LogicException('La clonación no está permitida');
     }
 
     

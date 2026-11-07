@@ -211,7 +211,6 @@ function generarPDF($id)
     $response = curl_exec($ch);
 
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
 
     // Si la respuesta es exitosa (código 200)
     if ($httpCode == 200) {
