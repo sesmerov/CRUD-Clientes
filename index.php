@@ -36,6 +36,16 @@ $posini = $_SESSION['posini'];
 
 //---- PAGINACIÓN ----
 $midb = AccesoDatos::getModelo();
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    try {
+        if ($midb->reiniciarDemoSiCorresponde()) {
+            $_SESSION['posini'] = 0;
+            $posini = 0;
+        }
+    } catch (Throwable $e) {
+        error_log('No se pudo restaurar la demo; se conservan los datos actuales.');
+    }
+}
 $totalfilas = $midb->numClientes();
 if ( $totalfilas % FPAG == 0){
     $posfin = $totalfilas - FPAG;

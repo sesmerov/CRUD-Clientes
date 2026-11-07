@@ -34,6 +34,86 @@ class AccesoDatos {
 
     }
 
+    // Restaura solo los clientes de la demo; las imágenes subidas se conservan.
+    public function reiniciarDemoSiCorresponde(?string $seedFile = null, ?int $now = null): bool {
+        $now ??= time();
+        $readReset = 'SELECT last_reset FROM DemoReset WHERE id = 1';
+        try {
+            $lastReset = $this->dbh->query($readReset)->fetchColumn();
+        } catch (PDOException $e) {
+            if ($e->getCode() !== '42S02') {
+                throw $e;
+            }
+            $this->dbh->exec('CREATE TABLE IF NOT EXISTS DemoReset (
+                id TINYINT UNSIGNED NOT NULL PRIMARY KEY,
+                last_reset BIGINT NOT NULL
+            ) ENGINE=InnoDB');
+            $lastReset = false;
+        }
+
+        if ($lastReset === false) {
+            // La primera visita inicia el reloj de 24 horas, sin borrar datos.
+            $initialize = $this->dbh->prepare('INSERT IGNORE INTO DemoReset (id, last_reset) VALUES (1, ?)');
+            $initialize->execute([$now]);
+            $lastReset = $this->dbh->query($readReset)->fetchColumn();
+        }
+        if ($now - (int)$lastReset < 86400) {
+            return false;
+        }
+
+        $seed = @file_get_contents($seedFile ?? __DIR__ . '/dat/Clientes.sql');
+        if ($seed === false) {
+            throw new RuntimeException('No se pudo leer la semilla de la demo.');
+        }
+        // Se valida el formato conocido; el CREATE del fichero nunca se ejecuta.
+        $rows = preg_replace('~\A\s*CREATE\s+TABLE\s+Clientes\s*\([^;]*\)\s*ENGINE\s*=\s*InnoDB\s+DEFAULT\s+CHARSET\s*=\s*utf8mb4\s*;\s*~i', '', $seed, 1, $headerCount);
+        if ($headerCount !== 1) {
+            throw new RuntimeException('La semilla de la demo no es válida.');
+        }
+        $columns = '\(\s*id\s*,\s*first_name\s*,\s*last_name\s*,\s*email\s*,\s*gender\s*,\s*ip_address\s*,\s*telefono\s*\)';
+        $value = "'(?:[^'\\\\]|'')*'";
+        $insertPattern = '~^INSERT\s+INTO\s+Clientes\s*' . $columns . '\s+VALUES\s*\(\s*([1-9][0-9]*)\s*(?:,\s*' . $value . '\s*){6}\)\s*;\s*$~iD';
+        $inserts = [];
+        $ids = [];
+        foreach (preg_split('/\R/', trim($rows)) as $line) {
+            if (trim($line) === '') {
+                continue;
+            }
+            if (!preg_match($insertPattern, $line, $match) || (int)$match[1] > 1000 || isset($ids[$match[1]])) {
+                throw new RuntimeException('La semilla de la demo no es válida.');
+            }
+            $ids[$match[1]] = true;
+            $inserts[] = $line;
+        }
+        if (count($inserts) !== 1000) {
+            throw new RuntimeException('La semilla debe contener los 1000 clientes originales.');
+        }
+
+        $transactionStarted = false;
+        try {
+            $this->dbh->beginTransaction();
+            $transactionStarted = true;
+            $lastReset = $this->dbh->query($readReset . ' FOR UPDATE')->fetchColumn();
+            if ($now - (int)$lastReset < 86400) {
+                $this->dbh->commit();
+                return false;
+            }
+            $this->dbh->exec('DELETE FROM Clientes');
+            foreach ($inserts as $insert) {
+                $this->dbh->exec($insert);
+            }
+            $update = $this->dbh->prepare('UPDATE DemoReset SET last_reset = ? WHERE id = 1');
+            $update->execute([$now]);
+            $this->dbh->commit();
+            return true;
+        } catch (Throwable $e) {
+            if ($transactionStarted && $this->dbh->inTransaction()) {
+                $this->dbh->rollBack();
+            }
+            throw $e;
+        }
+    }
+
     // Cierro la conexión anulando todos los objectos relacioanado con la conexión PDO (stmt)
     public static function closeModelo(){
         if (self::$modelo != null){
